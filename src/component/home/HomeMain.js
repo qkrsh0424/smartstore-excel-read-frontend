@@ -6,14 +6,10 @@ const HomeMain = () => {
 
     const [rowData, setRowData] = useState(null);
 
-    useEffect(() => {
-        axios.get('/api/test')
-            .then(res => console.log(res))
-    }, [])
     const __handleDataConnect = () => {
         return {
             postReadExcel: async function () {
-                await axios.post('/api/excel/read', fileFormData)
+                await axios.post('/api/v1/prod/order/excel/read', fileFormData)
                     .then(res => {
                         console.log(res)
                         if (res.status == 200 && res.data && res.data.message == 'success') {

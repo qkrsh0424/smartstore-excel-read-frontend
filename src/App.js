@@ -6,6 +6,7 @@ import styled from 'styled-components';
 // component
 import FullPageLoading from './component/loading/FullPageLoading';
 import HomeMain from './component/home/HomeMain';
+import SellManageMain from './component/sell_manage/SellManageMain';
 
 const AppContainer = styled.div`
     animation: fadein 1.5s;
@@ -55,6 +56,7 @@ function App() {
                         <Switch>
                             {/* Home */}
                             <Route exact path='/' component={HomeMain}></Route>
+                            <Route exact path='/sell' component={SellManageMain}></Route>
                         </Switch>
                     </AppContainer>
                 </Suspense>
