@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import {getStartDate,getEndDate} from '../../handler/dateHandler';
 
 // component
+import DrawerNavbarMain from '../nav/DrawerNavbarMain';
 import MallInfoComponent from './SellRegMallInfoComponent';
 import SellRegComponent from './SellRegComponent';
 
@@ -117,7 +118,8 @@ const SellRegMain = () => {
     }
     return (
         <>
-            <button type='button' onClick={()=>console.log(mallName, selectedDateRange)}>console</button>
+            <DrawerNavbarMain></DrawerNavbarMain>
+            {/* <button type='button' onClick={()=>console.log(mallName, selectedDateRange)}>console</button> */}
 
             <MallInfoComponent
                 mallName={mallName}

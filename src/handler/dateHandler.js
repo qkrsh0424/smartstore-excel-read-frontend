@@ -1,4 +1,6 @@
-function getStartDate(date){
+import moment from 'moment';
+
+function getStartDate(date) {
     var d = new Date(date);
     d.setHours(0);
     d.setMinutes(0);
@@ -7,7 +9,7 @@ function getStartDate(date){
     return d;
 }
 
-function getEndDate(date){
+function getEndDate(date) {
     var d = new Date(date);
     d.setHours(23);
     d.setMinutes(59);
@@ -22,16 +24,21 @@ function dateToYYYYMMDD(date) {
         day = '' + d.getDate(),
         year = d.getFullYear();
 
-    if (month.length < 2) 
+    if (month.length < 2)
         month = '0' + month;
-    if (day.length < 2) 
+    if (day.length < 2)
         day = '0' + day;
 
     return [year, month, day].join('-');
 }
 
+function dateToYYYYMMDDhhmmss(idate) {
+    var date = new Date(idate);
+    return moment(date).format("YYYY-MM-DD HH:mm:ss");
+}
 export {
     getStartDate,
     getEndDate,
-    dateToYYYYMMDD
+    dateToYYYYMMDD,
+    dateToYYYYMMDDhhmmss
 }

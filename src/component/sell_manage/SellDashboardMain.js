@@ -5,6 +5,7 @@ import axios from 'axios';
 import {getStartDate,getEndDate} from '../../handler/dateHandler';
 
 // component
+import DrawerNavbarMain from '../nav/DrawerNavbarMain';
 import SellDashboardMallInfoComponent from './SellDashboardMallInfoComponent';
 import SellDashboardComponent from './SellDashboardComponent';
 
@@ -106,6 +107,7 @@ const SellDashboardMain = () =>{
     }
     return(
         <>
+            <DrawerNavbarMain></DrawerNavbarMain>
             <SellDashboardMallInfoComponent
                 mallName={mallName}
                 selectedDateRange={selectedDateRange}
