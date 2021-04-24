@@ -4,14 +4,14 @@ import {dateToYYYYMMDDhhmmss} from '../../handler/dateHandler';
 const Container = styled.div`
 
 `;
-const SellRegComponent = (props) => {
+const SellConfirmComponent = (props) => {
     return (
         <>
             <Container className='container-fluid'>
                 <form onSubmit={(e) => props.__handleEventControl().excelRead(e)}>
                     <div className='row'>
                         <div className='form-group col-lg-6'>
-                            <input type='file' className='form-control' id='i_sell_reg_excel_uploader' onChange={(e) => props.__handleEventControl().fileOnChange(e)}></input>
+                            <input type='file' className='form-control' id='i_sell_confirm_excel_uploader' onChange={(e) => props.__handleEventControl().fileOnChange(e)}></input>
                         </div>
                         <div className='form-group col-lg-6'>
                             <button type='submit' className='btn btn-info btn-block'>엑셀 읽기</button>
@@ -21,7 +21,7 @@ const SellRegComponent = (props) => {
 
                 </form>
 
-                {props.sellRegData ?
+                {props.sellConfirmData ?
                     <>
                         <div className='form-group'>
                             <div className='table-responsive' style={{ width: '100%', height: '500px' }}>
@@ -35,9 +35,10 @@ const SellRegComponent = (props) => {
                                             <th scope="col" width='200'>상품명</th>
                                             <th scope="col" width='200'>옵션정보</th>
                                             <th scope="col" width='100'>수량</th>
-                                            {/* <th scope="col" width='200'>배송비합계</th>
-                                            <th scope="col" width='200'>정산예정금액</th> */}
-                                            <th scope="col" width='200'>주문일시</th>
+                                            <th scope="col" width='200'>배송비합계</th>
+                                            <th scope="col" width='200'>총 주문 금액</th>
+                                            <th scope="col" width='200'>주문결재일</th>
+                                            <th scope="col" width='200'>구매확정일</th>
                                         </tr>
                                     </thead>
                                     {/* 
@@ -54,7 +55,7 @@ const SellRegComponent = (props) => {
     private String zipcode; // 우편번호 45
     private String deliveryMessage; // 배송메세지 46 */}
                                     <tbody>
-                                        {props.sellRegData.map((r, index) => {
+                                        {props.sellConfirmData.map((r, index) => {
                                             return (
                                                 <tr key={index}>
                                                     <th scope="row">{index + 1}</th>
@@ -64,9 +65,10 @@ const SellRegComponent = (props) => {
                                                     <td>{r.prodName}</td>
                                                     <td>{r.optionInfo}</td>
                                                     <td>{r.unit}</td>
-                                                    {/* <td>{numberWithCommas(r.shipping)}</td>
-                                                    <td>{numberWithCommas(r.amount)}</td> */}
+                                                    <td>{numberWithCommas(r.shipping)}</td>
+                                                    <td>{numberWithCommas(r.amount)}</td>
                                                     <td>{dateToYYYYMMDDhhmmss(r.regDate)}</td>
+                                                    <td>{dateToYYYYMMDDhhmmss(r.confirmDate)}</td>
                                                 </tr>
                                             )
                                         })}
@@ -76,7 +78,7 @@ const SellRegComponent = (props) => {
                             </div>
                         </div>
                         <div className='form-group'>
-                            <button type='button' className='form-control btn btn-block btn-primary' onClick={(e) => props.__handleEventControl().saveData(e)}>데이터 저장하기</button>
+                            <button type='button' className='form-control btn btn-block btn-info' onClick={(e) => props.__handleEventControl().submitConfirmData(e)}>구매확정건 데이터 적용하기</button>
                         </div>
                     </>
                     :
@@ -87,4 +89,4 @@ const SellRegComponent = (props) => {
     );
 }
 
-export default SellRegComponent;
+export default SellConfirmComponent;

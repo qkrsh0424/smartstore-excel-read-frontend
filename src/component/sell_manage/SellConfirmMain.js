@@ -3,31 +3,29 @@ import axios from 'axios';
 
 // component
 import DrawerNavbarMain from '../nav/DrawerNavbarMain';
-import SellCancelMallInfoComponent from './SellCancelMallInfoComponent';
-import SellCancelComponent from './SellCancelComponent';
-const SellCancelMain = () => {
+import SellConfirmMallInfoComponent from './SellConfirmMallInfoComponent';
+import SellConfirmComponent from './SellConfirmComponent';
+const SellConfirmMain = () => {
     const [mallName, setMallName] = useState('');
     const [fileFormData, setFileFormData] = useState(null);
-    const [sellCancelData, setSellCancelData] = useState(null);
+    const [sellConfirmData, setSellConfirmData] = useState(null);
     const __handleDataConnect = () => {
         return {
             postReadExcel: async function(){
-                await axios.post('/api/excel/sell-cancel/read', fileFormData)
+                await axios.post('/api/excel/sell-confirm/read', fileFormData)
                 .then(res => {
                     console.log(res)
                     if (res.status == 200 && res.data && res.data.message == 'success') {
-                        setSellCancelData(res.data.data);
+                        setSellConfirmData(res.data.data);
                     }
                 })
                 .catch(err => console.log(err.response))
             },
-            postDeleteData: async function(){
+            postPatchData: async function(){
                 
-                await axios.delete('/api/sell-item/list', {
-                    data:{
-                        data:sellCancelData,
-                        mallName:mallName,    
-                    }
+                await axios.patch('/api/sell-item/list', {
+                        data:sellConfirmData,
+                        mallName:mallName,
                 })
                     .then(res=>{
                         console.log(res)
@@ -54,32 +52,32 @@ const SellCancelMain = () => {
             excelRead: async function (e) {
                 e.preventDefault();
                 await __handleDataConnect().postReadExcel();
-                document.getElementById('i_sell_cancel_excel_uploader').value='';
+                document.getElementById('i_sell_confirm_excel_uploader').value='';
             },
             fileOnChange: function(e){
                 let formData = new FormData();
                 formData.append("file", e.target.files[0])
                 setFileFormData(formData);
             },
-            submitCancelData : async function(){
-                await __handleDataConnect().postDeleteData();
+            submitConfirmData : async function(){
+                await __handleDataConnect().postPatchData();
             }
         }
     }
     return (
         <>
             <DrawerNavbarMain></DrawerNavbarMain>
-            <SellCancelMallInfoComponent
+            <SellConfirmMallInfoComponent
                 mallName={mallName}
                 __handleEventControl={__handleEventControl}
-            ></SellCancelMallInfoComponent>
-            <SellCancelComponent
-                sellCancelData={sellCancelData}
+            ></SellConfirmMallInfoComponent>
+            <SellConfirmComponent
+                sellConfirmData={sellConfirmData}
 
                 __handleEventControl={__handleEventControl}
-            ></SellCancelComponent>
+            ></SellConfirmComponent>
         </>
     );
 }
 
-export default SellCancelMain;
+export default SellConfirmMain;

@@ -11,6 +11,7 @@ import HomeMain from './component/home/HomeMain';
 import SellDashboardMain from './component/sell_manage/SellDashboardMain';
 import SellRegMain from './component/sell_manage/SellRegMain';
 import SellCancelMain from './component/sell_manage/SellCancelMain';
+import SellConfirmMain from './component/sell_manage/SellConfirmMain';
 const theme = unstable_createMuiStrictModeTheme();
 
 const AppContainer = styled.div`
@@ -65,6 +66,7 @@ function App() {
                                 <Route exact path='/sell/dashboard' component={SellDashboardMain}></Route>
                                 <Route exact path='/sell/reg' component={SellRegMain}></Route>
                                 <Route exact path='/sell/cancel' component={SellCancelMain}></Route>
+                                <Route exact path='/sell/confirm' component={SellConfirmMain}></Route>
                             </Switch>
                         </AppContainer>
                     </Suspense>

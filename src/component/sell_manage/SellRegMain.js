@@ -18,7 +18,7 @@ const SellRegMain = () => {
         key: 'daterange'
     });
     const [fileFormData, setFileFormData] = useState(null);
-    const [sellRegData, setSellRegData] = useState(null);
+    const [sellRegData, setSellRegData] = useState([]);
 
     useEffect(()=>{
 
@@ -30,7 +30,7 @@ const SellRegMain = () => {
                     .then(res => {
                         console.log(res)
                         if (res.status == 200 && res.data && res.data.message == 'success') {
-                            setSellRegData(res.data.data);
+                            setSellRegData(sellRegData.concat(res.data.data));
                         }
                     })
                     .catch(err => console.log(err.response))
