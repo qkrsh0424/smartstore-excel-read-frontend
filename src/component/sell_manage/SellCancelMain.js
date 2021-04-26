@@ -17,6 +17,7 @@ const SellCancelMain = () => {
                     console.log(res)
                     if (res.status == 200 && res.data && res.data.message == 'success') {
                         setSellCancelData(res.data.data);
+                        alert('읽어들임.');
                     }
                 })
                 .catch(err => console.log(err.response))
@@ -30,6 +31,10 @@ const SellCancelMain = () => {
                     }
                 })
                     .then(res=>{
+                        if (res.status == 200 && res.data && res.data.message == 'success') {
+                            alert('처리됨.');
+                            setSellCancelData(null);
+                        }
                         console.log(res)
                     })
                     .catch(err=>{

@@ -1,27 +1,29 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 // handler
-import {numberWithCommas} from '../../handler/numberHandler';
+import { numberWithCommas } from '../../handler/numberHandler';
 const Container = styled.div`
 
 `;
+
+
 const SellDashboardComponent = (props) => {
 
     const [salesTotal, setSalesTotal] = useState(null);
-    useEffect(()=>{
-        if(props.sellSummaryData){
+    useEffect(() => {
+        if (props.sellSummaryData) {
             __handleDataTransform().calSalesTotal();
         }
-        
-    },[props.sellSummaryData])
 
-    const __handleDataTransform = () =>{
-        return{
-            calSalesTotal: function(){
+    }, [props.sellSummaryData])
+
+    const __handleDataTransform = () => {
+        return {
+            calSalesTotal: function () {
                 let sum = 0;
-                if(props.sellSummaryData){
-                    for(let i = 0 ; i < props.sellSummaryData.length; i++){
+                if (props.sellSummaryData) {
+                    for (let i = 0; i < props.sellSummaryData.length; i++) {
                         sum += props.sellSummaryData[i].amountSum + props.sellSummaryData[i].shippingSum;
                     }
                 }
@@ -29,13 +31,43 @@ const SellDashboardComponent = (props) => {
             }
         }
     }
+
+    const getInflowMobile = (prodNo) => {
+        for (let i = 0; i < props.inflowData.length; i++) {
+            if (props.inflowData[i].prodNo == prodNo && props.inflowData[i].deviceType == '모바일') {
+                return props.inflowData[i].pageView;
+            }
+        }
+    }
+
+    const getInflowPC = (prodNo) => {
+        for (let i = 0; i < props.inflowData.length; i++) {
+            if (props.inflowData[i].prodNo == prodNo && props.inflowData[i].deviceType == 'PC') {
+                return props.inflowData[i].pageView;
+            }
+        }
+    }
+
+    const getRatio = (prodNo, unitSum) =>{
+        let mobilePageView = 0;
+        let pcPageView = 0;
+        for (let i = 0; i < props.inflowData.length; i++) {
+            if (props.inflowData[i].prodNo == prodNo && props.inflowData[i].deviceType == '모바일') {
+                mobilePageView = props.inflowData[i].pageView;
+            }
+            if (props.inflowData[i].prodNo == prodNo && props.inflowData[i].deviceType == 'PC') {
+                pcPageView = props.inflowData[i].pageView;
+            }
+        }
+        return (unitSum / (mobilePageView+pcPageView) * 100).toFixed(2);
+    }
     return (
         <>
             <Container className='container'>
-            {salesTotal ? <>예상 매출 총 합계 : {numberWithCommas(salesTotal)} 원</> : ''}
-            {props.sellSummaryData ?
+                {salesTotal ? <>예상 매출 총 합계 : {numberWithCommas(salesTotal)} 원</> : ''}
+                {props.sellSummaryData ?
                     <>
-                        <h4>전체기간 요약정보</h4>
+                        <h4>전체기간 요약정보 <input type='file' id='i_excel_inflow_uploader' onChange={(e) => props.__handleEventControl().excelRead().inflow(e)}></input></h4>
                         <div className='table-responsive' style={{ width: '100%', height: '500px' }}>
                             <table className="table" style={{ tableLayout: 'fixed' }}>
                                 <thead>
@@ -44,9 +76,20 @@ const SellDashboardComponent = (props) => {
                                         <th scope="col" width='200'>상품명</th>
                                         <th scope="col" width='200'>옵션정보</th>
                                         <th scope="col" width='100'>수량</th>
-                                        <th scope="col" width='200'>배송비 총</th>
+                                        {/* <th scope="col" width='200'>배송비 총</th>
                                         <th scope="col" width='200'>정산예정금액 총</th>
-                                        <th scope="col" width='200'>예상매출 총</th>
+                                        <th scope="col" width='200'>예상매출 총</th> */}
+                                        
+                                        {props.inflowData ?
+                                            <>
+                                                <th scope="col" width='200'>모바일 유입</th>
+                                                <th scope="col" width='200'>PC 유입</th>
+                                                <th scope="col" width='200'>유입당 결재율</th>
+                                            </>
+                                            :
+                                            <>
+                                            </>
+                                        }
                                         <th scope="col" width='200'>상품번호</th>
                                     </tr>
                                 </thead>
@@ -58,9 +101,19 @@ const SellDashboardComponent = (props) => {
                                                 <td>{r.prodName}</td>
                                                 <td>{r.optionInfo}</td>
                                                 <td>{r.unitSum}</td>
-                                                <td>{numberWithCommas(r.shippingSum)}</td>
+                                                {/* <td>{numberWithCommas(r.shippingSum)}</td>
                                                 <td>{numberWithCommas(r.amountSum)}</td>
-                                                <td>{numberWithCommas(r.shippingSum + r.amountSum)}</td>
+                                                <td>{numberWithCommas(r.shippingSum + r.amountSum)}</td> */}
+                                                
+                                                {props.inflowData ?
+                                                    <>
+                                                        <td>{getInflowMobile(r.prodNo)}</td>
+                                                        <td>{getInflowPC(r.prodNo)}</td>
+                                                        <td>{getRatio(r.prodNo, r.unitSum)} %</td>
+                                                    </>
+                                                    :
+                                                    <></>
+                                                }
                                                 <td>{r.prodNo}</td>
                                             </tr>
                                         )

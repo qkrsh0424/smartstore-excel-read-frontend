@@ -31,6 +31,7 @@ const SellRegMain = () => {
                         console.log(res)
                         if (res.status == 200 && res.data && res.data.message == 'success') {
                             setSellRegData(sellRegData.concat(res.data.data));
+                            alert('읽어들임');
                         }
                     })
                     .catch(err => console.log(err.response))
@@ -43,6 +44,10 @@ const SellRegMain = () => {
                     regDate:selectedDateRange.startDate.toUTCString()
                 })
                     .then(res=>{
+                        if (res.status == 200 && res.data && res.data.message == 'success') {
+                            alert('처리됨.');
+                            setSellRegData([]);
+                        }
                         console.log(res)
                     })
                     .catch(err=>{
@@ -113,6 +118,9 @@ const SellRegMain = () => {
             },
             saveData: async function(){
                 await __handleDataConnect().postInsertData();
+                setTimeout(()=>{
+                    document.getElementById('i_excel_inflow_uploader').value = '';
+                },100)
             }
         }
     }

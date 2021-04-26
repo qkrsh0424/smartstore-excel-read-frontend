@@ -35,6 +35,7 @@ const SellRegComponent = (props) => {
                                             <th scope="col" width='200'>상품명</th>
                                             <th scope="col" width='200'>옵션정보</th>
                                             <th scope="col" width='100'>수량</th>
+                                            <th scope="col" width='200'>주문상태</th>
                                             {/* <th scope="col" width='200'>배송비합계</th>
                                             <th scope="col" width='200'>정산예정금액</th> */}
                                             <th scope="col" width='200'>주문일시</th>
@@ -64,6 +65,7 @@ const SellRegComponent = (props) => {
                                                     <td>{r.prodName}</td>
                                                     <td>{r.optionInfo}</td>
                                                     <td>{r.unit}</td>
+                                                    <td>{r.orderStatus}</td>
                                                     {/* <td>{numberWithCommas(r.shipping)}</td>
                                                     <td>{numberWithCommas(r.amount)}</td> */}
                                                     <td>{dateToYYYYMMDDhhmmss(r.regDate)}</td>
